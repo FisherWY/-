@@ -1,0 +1,145 @@
+///////////题目一
+# include <iostream>
+# include <algorithm>
+# include <vector>
+using namespace std;
+
+# define length 10
+
+// 生成随机数组
+void mkrand(int *a) {
+	srand(time(NULL));
+	for (int i = 0; i < length; i++)
+	{
+		a[i] = rand() % 10 + 1;
+	}
+}
+
+// 比较函数, 建造小顶堆
+bool compare(int a, int b) {
+	return a > b ? true : false;
+}
+
+int main(int argc, char const *argv[])
+{
+	int *a = new int[length];
+	int *b = new int[length];
+	int *k = new int(0);
+	mkrand(a);
+	mkrand(b);
+	cout<<"生成的随机数组a："<<endl;
+	for (int i = 0; i < length; i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;
+
+	cout<<"生成的随机数组b："<<endl;
+	for (int i = 0; i < length; i++)
+	{
+		cout<<b[i]<<" ";
+	}
+	cout<<endl;
+
+	// 排序
+	sort(b, b+length);
+
+	// 创建容器
+	vector<int> v(a, a+length);
+	// 创建堆
+	make_heap(v.begin(), v.end(), compare);
+
+	cout<<"要出堆的次数: ";
+	cin>>*k;
+
+	if (*k>=length) {
+		cout<<"非法输入"<<endl;
+	} else {
+		for (int i = 0; i < *k; i++)
+		{
+			pop_heap(v.begin(), v.end(), compare);
+			v.pop_back();
+		}
+		cout<<"mina: "<<v.front()<<endl;
+	}
+
+	cout<<"minb: "<<b[*k]<<endl;
+
+	delete k;
+	delete[] a;
+	return 0;
+}
+
+
+///////////题目二
+# include <iostream>
+# include <algorithm>
+# include <vector>
+using namespace std;
+
+// 插入若干个无序整数
+void input(vector<int> &v) {
+	cout<<"输入整数,-1停止: ";
+	int x, key;
+	cin>>x;
+	if (x==-1) {
+		return;
+	} else {
+		v.push_back(x);
+		// 输入的第一个数作为判断较小或者较大的数的依据
+		key = x;
+	}
+
+	while(true) {
+		cin>>x;
+		if (x==-1)
+			return;
+		if (x>key) {
+			// 较大的数
+			v.insert(v.end(), x);
+		} else {
+			// 较小的数
+			v.insert(v.begin(), x);
+		}
+	}
+}
+
+// 比较函数, 建造小顶堆
+bool compare(const int &a,const int &b) {
+	return a > b ? true : false;
+}
+
+// 寻找中位数
+void fun(vector<int> &v) {
+	for (int i = 0; i < v.size(); i++)
+	{
+		cout<<v[i]<<" ";
+	}
+	cout<<endl;
+	vector<int> min(v.begin()+(v.size()/2+1), v.begin()+v.size() );
+	vector<int> max(v.begin(), v.begin()+(v.size()/2+1) );
+
+	make_heap(min.begin(), v.end(), compare);
+	make_heap(max.begin(), max.end());
+
+	cout<<"小顶堆: "<<min[0]<<endl;
+	cout<<"大顶堆: "<<max[0]<<endl;
+	if (v.size()%2 != 0) {
+		// size为奇数时, 中位数只有1个
+		cout<<"中位数: "<<min[0]<<endl;
+	} else {
+		// size为偶数时, 中中位数有2个
+		cout<<"中位数: "<<min[0]<<" "<<max[0]<<endl;
+	}
+}
+
+int main(int argc, char const *argv[])
+{
+	vector<int> v;
+
+	input(v);
+
+	fun(v);
+
+	return 0;
+}
