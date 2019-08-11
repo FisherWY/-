@@ -3,6 +3,12 @@
 # include <vector>
 using namespace std;
 
+/**
+ *	w: 每件货物的重量
+ *	bestw: 第一艘船能装载的最大货物量
+ *	n: 货物数量
+**/
+
 vector<float> w;
 float bestw = 0.0;
 int n;
@@ -10,6 +16,7 @@ queue<float> q;
 
 void AddLiveNode(float wt, int i)
 {
+	// 船载满
 	if (i == n-1)
 	{
 		if (wt > bestw)
@@ -17,6 +24,7 @@ void AddLiveNode(float wt, int i)
 			bestw = wt;
 		}
 	}
+	// 船未载满
 	else
 	{
 		q.push(wt);
@@ -52,6 +60,7 @@ void MaxLoading(float c)
 			{
 				return;
 			}
+			// 未搜索完毕，取下一种情况
 			q.push(-1);
 			ew = q.front();
 			q.pop();
@@ -62,6 +71,11 @@ void MaxLoading(float c)
 
 int main(int argc, char const *argv[])
 {
+	/**
+	 *	c1: 第一艘船载重量
+	 *	c2: 第二艘船载重量
+	 *	s: 货物总重
+	**/
 	float c1, c2, s = 0.0;
 	cin>>c1>>c2>>n;
 	for (int i = 0; i < n; i++)

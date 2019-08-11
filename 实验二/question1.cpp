@@ -66,5 +66,6 @@ int main(int argc, char const *argv[])
 
 	delete k;
 	delete[] a;
+	delete[] b;
 	return 0;
 }
